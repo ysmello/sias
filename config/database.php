@@ -1,7 +1,7 @@
 <?php
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $password = "system";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=sias_db", $username, $password);
