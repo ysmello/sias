@@ -272,4 +272,3 @@ CREATE TABLE hist_prontuario (
       ON UPDATE NO ACTION
 );
 
-
