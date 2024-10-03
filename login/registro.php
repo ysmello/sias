@@ -12,7 +12,7 @@
 <body class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f8f9fa;">
     <div class="container mt-5">
         <h2 class="text-center">Cadastro de Usuário</h2>
-        <form class="row g-3" method="POST" action="insert_usuario.php">
+        <form class="row g-3" method="POST" action="insert-usuario.php">
             <!-- Nome e Sobrenome -->
             <div class="col-md-6">
                 <label for="nome" class="form-label">Nome</label>

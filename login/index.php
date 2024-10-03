@@ -30,8 +30,8 @@
             <div class="d-flex justify-content-between align-items-center">
                 <button class="btn btn-secondary" type="submit"><b>ENTRAR</b></button>
                 <div class="d-flex ms-3">
-                    <a href="esqueciMinhaSenha.php" class="link-secondary me-3">Esqueci minha senha</a>
-                    <a href="cadastrarLogin.php" class="link-secondary">Registre-se</a>
+                    <a href="esqueci-minha-senha.php" class="link-secondary me-3">Esqueci minha senha</a>
+                    <a href="registro.php" class="link-secondary">Registre-se</a>
                 </div>
             </div>
         </form>
