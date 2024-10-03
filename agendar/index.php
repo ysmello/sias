@@ -1,3 +1,13 @@
+<?php
+    if (isset($_GET['id']) == 1) {
+        include '../config/database.php';
+
+        $stmt = $conn->prepare("INSERT INTO agenda (paciente_id, profissional_id, data) VALUES (?, ?, ?)");
+        //$stmt->bind_params("iis", 1, 1, "10/05/2000");
+        //$stmt->execute(); 
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +53,7 @@
                     <div class="d-flex flex-column align-items-center">
                         <span>Hoje</span>
                         <span>2 out</span>
-                        <a href="/agendar/escolher-data.php">9:00</a>
+                        <a href="/agendar?id=1">9:00</a>
                         <span> - </span>
                         <span> - </span>
                         <span> - </span>

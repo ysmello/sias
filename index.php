@@ -9,7 +9,8 @@
 </head>
 <body>
     <?php
-        include 'components/header.php'
+        include 'components/header.php';
+        include 'config/database.php';
     ?>
 
     <div class="container">
