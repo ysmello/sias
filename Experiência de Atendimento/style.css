@@ -12,8 +12,8 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center; 
-    width: 600px; /* Largura do retângulo horizontal */
-    max-width: 90%; /* Para se ajustar em telas menores */
+    width: 600px;
+    max-width: 90%;
 }
 .estrela {
     cursor: pointer;
@@ -24,8 +24,8 @@ body {
     color: gold; 
 }
 img {
-    border-radius: 50%; /* Bordas arredondadas para a imagem */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    margin-bottom: 20px; /* Espaçamento abaixo da imagem */
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
 }
     

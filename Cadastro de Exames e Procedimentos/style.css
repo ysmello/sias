@@ -1,14 +1,14 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    text-align: center; /* Centraliza o conteúdo no corpo */
+    text-align: center;
 }
 h1 {
     margin-bottom: 20px;
 }
 table {
-    width: 80%; /* Define a largura da tabela */
-    margin: 0 auto; /* Centraliza a tabela */
+    width: 80%;
+    margin: 0 auto;
     border-collapse: collapse;
 }
 th, td {
