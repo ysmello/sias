@@ -71,47 +71,37 @@
             </div>
 
             <!-- CEP e Cidade -->
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <label for="cep" class="form-label">CEP</label>
                 <div class="input-group">
                     <input type="text" class="form-control" id="cep" name="cep" required>
                 </div>
             </div>
-            <div class="col-md-2">
-                <label for="cidade" class="form-label">Cidade</label>
-                <input type="text" class="form-control" id="cidade" name="cidade" required>
+            <div class="col-md-3">
+                <label for="localidade" class="form-label">Cidade</label>
+                <input type="text" class="form-control" id="localidade" name="cidade" required readonly>
             </div>
-            <div class="col-md-1">
-                <label for="uf" class="form-label">UF</label>
-                <select id="uf" class="form-select" name="uf">
-                    <option selected>UF</option>
-                    <option>SP</option>
-                    <option>RJ</option>
-                    <!-- Adicionar outras opções conforme necessário -->
-                </select>
+            <div class="col-md-2">
+                <label for="uf" class="form-label">Estado</label>
+                <input type="text" class="form-control" id="uf" name="uf" required readonly>
             </div>
 
             <!-- Logradouro e Número -->
-            <div class="col-md-2">
-                <label for="tipo-logradouro" class="form-label">Tipo Logradouro</label>
-                <select id="tipo-logradouro" class="form-select" name="tipo-logradouro">
-                    <option selected>Rua</option>
-                    <option>Avenida</option>
-                    <option>Travessa</option>
-                    <!-- Adicionar outras opções -->
-                </select>
+            <div class="col-md-4">
+                <label for="bairro" class="form-label">Bairro</label>
+                <input type="text" class="form-control" id="bairro" name="bairro" required readonly>
             </div>
             <div class="col-md-3">
                 <label for="logradouro" class="form-label">Nome Logradouro</label>
-                <input type="text" class="form-control" id="logradouro" name="logradouro" required>
+                <input type="text" class="form-control" id="logradouro" name="logradouro" required readonly>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-3">
                 <label for="numero" class="form-label">Número</label>
                 <input type="text" class="form-control" id="numero" name="numero" required>
             </div>
 
             <!-- Complemento -->
-            <div class="col-md-1">
+            <div class="col-md-6">
                 <label for="complemento" class="form-label">Complemento</label>
                 <input type="text" class="form-control" id="complemento" name="complemento">
             </div>
@@ -143,5 +133,31 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const cepInput = document.querySelector("#cep")
+
+        cepInput.addEventListener('blur', async (e) => {
+            const cep = e.target.value
+            const adress = await fetchAddress(cep)
+            fillAddressFields(adress)
+        })
+
+        async function fetchAddress(value) {
+            const response = await fetch(`https://viacep.com.br/ws/${value}/json/`)
+            const body = await response.json()
+            return body
+        }
+
+        function fillAddressFields(body) {
+            const fields = ['localidade', 'logradouro', 'bairro', 'uf']
+            fields.forEach(key => {
+                const currentField = document.getElementById(key)
+
+                if (currentField) {
+                    currentField.value = body[key]
+                }
+            })
+        }
+    </script>
 </body>
 </html>
