@@ -12,7 +12,7 @@
     <div class="container">
         <h1>Como foi sua experiência?</h1>
 
-        <img src="https://medcorsorocaba.com.br/wp-content/uploads/2022/04/Dr-Jose-Roberto-Pineda-Pietrobon-Redini-Martins-500x500.png" width="150" height="150"><br><br>
+        <img src="" width="150" height="150"><br><br>
 
         <label for="nome">Nome: Rodolfo Soares da Silva</label><br><br>
 
