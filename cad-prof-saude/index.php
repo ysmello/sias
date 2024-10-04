@@ -8,7 +8,7 @@
 </head>
 <body class="container mt-5">
 
-    <h1 class="mb-4 text-start">Cadastro de Profissional de Saúde</h1>
+    <h2 class="text-center">Cadastro de Profissional de Saúde</h2>
     
     <div class="bg-white rounded p-4 shadow-sm mb-4">
         <div class="row mb-3">
