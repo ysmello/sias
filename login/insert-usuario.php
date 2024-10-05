@@ -14,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cep = $_POST['cep'];
     $cidade = $_POST['cidade'];
     $uf = $_POST['uf'];
-    $tipo_logradouro = $_POST['tipo-logradouro'];
     $logradouro = $_POST['logradouro'];
     $numero = $_POST['numero'];
     $complemento = $_POST['complemento'];
@@ -23,26 +22,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $conn->beginTransaction();
         
-        // Inserir cidadão
-        $stmt = $conn->prepare("INSERT INTO cidadao (cid_nome_razao, cid_email, cid_celular, cid_cpf_cnpj, cid_dt_nascimento, cid_sexo, cid_whatsapp) 
+        $stmt = $conn->prepare("INSERT INTO cidadao (cid_nome, cid_email, cid_celular, cid_cpf, cid_dt_nascimento, cid_sexo, cid_whatsapp) 
                                 VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$nome . ' ' . $sobrenome, $email, $celular, $cpf, $data_nascimento, $sexo, $whatsapp]);
         $cidadao_id = $conn->lastInsertId();
 
-        // Inserir usuário
         $stmt = $conn->prepare("INSERT INTO usuario (cidadao_cid_id, usu_senha, usu_dt_cadastro, usu_situacao) 
                                 VALUES (?, ?, NOW(), 1)");
         $stmt->execute([$cidadao_id, $senha]);
 
-        // Inserir logradouro
-        $stmt = $conn->prepare("INSERT INTO logradouro (tipo_logradouro_tp_log_id, municipio_mun_id, log_nome, log_numero, log_complemento, log_cep) 
-                                VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO logradouro (cidadao_cid_id, municipio, log_nome, log_numero, log_complemento, log_cep) 
+                               VALUES (?, ?, ?, ?, ?, ?)");
         
-        // Aqui você precisa resolver a busca ou inserção de município e tipo_logradouro.
-        $stmt->execute([$tipo_logradouro, $cidade, $logradouro, $numero, $complemento, $cep]);
+        $stmt->execute([$cidadao_id, $cidade, $logradouro, $numero, $complemento, $cep]);
 
         $conn->commit();
-        echo "Cadastro realizado com sucesso!";
+        
+        header("Location: index.php");
     } catch (Exception $e) {
         $conn->rollBack();
         echo "Falha no cadastro: " . $e->getMessage();

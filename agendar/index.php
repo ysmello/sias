@@ -19,7 +19,7 @@
 </head>
 <body>
     <?php
-        include '../components/header.php'
+        include '../components/footer.php';
     ?>
 
     <div class="container">
@@ -90,7 +90,7 @@
                     <div class="d-flex flex-column align-items-center">
                         <span>Sexta</span>
                         <span>6 out</span>
-                         <span> 9:00 </span>
+                        <span> 9:00 </span>
                         <span> - </span>
                         <span> - </span>
                         <span> - </span>
@@ -100,6 +100,8 @@
             </div>
         </div>
     </div>
+
+   
 
     <script>
         function getMonthName(monthIndex) {
