@@ -38,7 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $conn->commit();
         
-        header("Location: index.php");
+        header('Location: ../login/index.php?sucesso=1');
+        exit();
     } catch (Exception $e) {
         $conn->rollBack();
         echo "Falha no cadastro: " . $e->getMessage();
