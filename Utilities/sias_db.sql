@@ -4,7 +4,7 @@ USE sias_db;
 
 CREATE TABLE especialidade (
   esp_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  esp_nome VARCHAR(20) NULL,
+  esp_nome VARCHAR(225) NULL,
   esp_descr VARCHAR(255) NULL,
   PRIMARY KEY(esp_id)
 );
@@ -23,13 +23,22 @@ CREATE TABLE pais (
   PRIMARY KEY(pais_id)
 );
 
+CREATE TABLE tipo_logradouro (
+  tp_log_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  tp_log_nome VARCHAR(255) NULL,
+  PRIMARY KEY(tp_log_id)
+);
+
 CREATE TABLE cidadao (
   cid_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  cid_cpf VARCHAR(14) NULL,
-  cid_nome VARCHAR(200) NULL,
+  cid_tipo INTEGER UNSIGNED NULL,
+  cid_cpf_cnpj VARCHAR(14) NULL,
+  cid_nome_razao VARCHAR(200) NULL,
+  cid_nome_social_fantasia VARCHAR(200) NULL,
   cid_foto BLOB NULL,
   cid_dt_nascimento DATE NULL,
-  cid_sexo VARCHAR(1) NULL,
+  cid_sexo INTEGER UNSIGNED NULL,
+  cid_genero INTEGER UNSIGNED NULL,
   cid_email VARCHAR(200) NULL,
   cid_celular VARCHAR(13) NULL,
   cid_whatsapp INTEGER UNSIGNED NULL,
@@ -159,17 +168,22 @@ CREATE TABLE convenios_has_paciente (
 
 CREATE TABLE logradouro (
   log_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  cidadao_cid_id INTEGER UNSIGNED NOT NULL,
-  municipio VARCHAR(8) NOT NULL,
+  tipo_logradouro_tp_log_id INTEGER UNSIGNED NOT NULL,
+  municipio_mun_id INTEGER UNSIGNED NOT NULL,
   log_nome VARCHAR(100) NULL,
   log_numero VARCHAR(10) NULL,
   log_complemento VARCHAR(10) NULL,
   log_bairro VARCHAR(50) NULL,
   log_cep VARCHAR(8) NULL,
   PRIMARY KEY(log_id),
-  INDEX usuario_FKIndex1(cidadao_cid_id),
-  FOREIGN KEY(cidadao_cid_id)
-    REFERENCES cidadao(cid_id)
+  INDEX endereco_FKIndex1(tipo_logradouro_tp_log_id),
+  INDEX endereco_FKIndex2(municipio_mun_id),
+  FOREIGN KEY(tipo_logradouro_tp_log_id)
+    REFERENCES tipo_logradouro(tp_log_id)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+  FOREIGN KEY(municipio_mun_id)
+    REFERENCES municipio(mun_id)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
 );
@@ -257,4 +271,13 @@ CREATE TABLE hist_prontuario (
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
 );
+CREATE TABLE planos (
+  plano_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  plano_nome VARCHAR(225) NULL,
+  plano_descr VARCHAR(255) NULL,
+  PRIMARY KEY(plano_id)
+);
 
+
+select * from especialidade
+drop database sias_db

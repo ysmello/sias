@@ -6,8 +6,12 @@ $query = "SELECT esp_id, esp_nome FROM especialidade";
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $especialidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
 
+$query = "SELECT plano_id, plano_nome FROM planos";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$planos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -16,11 +20,15 @@ $especialidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Usuário</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: white; /* Fundo branco */
+        }
+    </style>
 </head>
-<body class="bg-light">
-    <?php
-        include '../components/header.php'
-    ?>
+<body>
+    <?php include '../components/header.php'; ?>
+    
     <div class="container mt-5">
         <h2 class="text-center mb-4">Cadastro Profissional da Saúde</h2>
         <form class="row g-3" method="POST" action="insert-usuario.php">
@@ -114,10 +122,8 @@ $especialidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="text" class="form-control" id="complemento" name="complemento">
             </div>
 
-            <!-- Especialização -->
-            <div class="bg-white rounded p-4 shadow-sm mb-4">
-            <h2 class="mb-4">Especialização</h2>
-            <div class="mb-3">
+            <!-- Especialização e Planos -->
+            <div class="col-md-6">
                 <label for="especialidade" class="form-label">Escolha uma Especialidade:</label>
                 <select class="form-select" id="especialidade" name="especialidade" required>
                     <option value="" disabled selected>Selecione uma especialidade</option>
@@ -128,104 +134,19 @@ $especialidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </select>
             </div>
-            </div>
-            <!-- Clínicas -->
-            <div class="bg-white rounded p-4 shadow-sm mb-4">
-            <div class="d-flex justify-content-between mb-3">
-                <h5>Clínicas</h5>
-                <div>
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href='clinicas.php'">Inserir</button>
-                    <button class="btn btn-secondary">Alterar</button>
-                    <button class="btn btn-secondary">Excluir</button>
-                </div>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Endereço</th>
-                            <th scope="col">Bairro</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Cidade</th>
-                            <th scope="col">Telefone</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-md-6">
+                <label for="plano" class="form-label">Escolha o Plano de Saúde Associado</label>
+                <select class="form-select" id="plano" name="plano" required>
+                    <option value="" disabled selected>Selecione um plano</option>
+                    <?php foreach ($planos as $plano): ?>
+                        <option value="<?php echo htmlspecialchars($plano['plano_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php echo htmlspecialchars($plano['plano_nome'], ENT_QUOTES, 'UTF-8'); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
-            <!-- Planos de Saúde Associados -->
-            <div class="bg-white rounded p-4 shadow-sm mb-4">
-                <div class="d-flex justify-content-between mb-3">
-                    <h5>Planos de Saúde Associados</h5>
-                    <div>
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href='planos.php'">Inserir</button>
-                        <button class="btn btn-secondary">Alterar</button>
-                        <button class="btn btn-secondary">Excluir</button>
-                    </div>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nome</th>
-                            <th scope="col">N° ANS</th>
-                            <th scope="col">CNPJ</th>
-                            <th scope="col">Situação</th>
-                            <th scope="col">Telefone</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Termos e condições -->
-            <div class="bg-white rounded p-4 shadow-sm mb-4">
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="termos" required>
-                    <label class="form-check-label" for="termos">
-                        Eu aceito os termos e condições, e confirmo que li e entendi a política de privacidade.*
-                    </label>
-                </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="normas" required>
-                    <label class="form-check-label" for="normas">
-                        Declaro estar ciente das normas profissionais que deve seguir e da necessidade de inclusão do(s) número de registro profissional e de especialidade (quando cabível).*
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-secondary">Cadastrar-se</button>
-            </div>
+            <button type="submit" class="btn btn-secondary mt-4">Cadastrar-se</button>
         </form>
     </div>
 
