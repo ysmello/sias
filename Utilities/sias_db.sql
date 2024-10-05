@@ -1,3 +1,4 @@
+drop database sias_db;
 CREATE DATABASE sias_db;
 
 USE sias_db;
@@ -17,18 +18,6 @@ CREATE TABLE tp_prontuario (
   PRIMARY KEY(tp_pro_id)
 );
 
-CREATE TABLE pais (
-  pais_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  pais_nome VARCHAR(200) NULL,
-  PRIMARY KEY(pais_id)
-);
-
-CREATE TABLE tipo_logradouro (
-  tp_log_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  tp_log_nome VARCHAR(255) NULL,
-  PRIMARY KEY(tp_log_id)
-);
-
 CREATE TABLE cidadao (
   cid_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   cid_tipo INTEGER UNSIGNED NULL,
@@ -40,7 +29,7 @@ CREATE TABLE cidadao (
   cid_sexo INTEGER UNSIGNED NULL,
   cid_genero INTEGER UNSIGNED NULL,
   cid_email VARCHAR(200) NULL,
-  cid_celular VARCHAR(13) NULL,
+  cid_celular VARCHAR(14) NULL,
   cid_whatsapp INTEGER UNSIGNED NULL,
   PRIMARY KEY(cid_id)
 );
@@ -76,14 +65,8 @@ CREATE TABLE convenios (
 
 CREATE TABLE estado (
   est_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  pais_id INTEGER UNSIGNED NOT NULL,
   est_nome VARCHAR(200) NULL,
-  PRIMARY KEY(est_id),
-  INDEX estado_FKIndex1(pais_id),
-  FOREIGN KEY(pais_id)
-    REFERENCES pais(pais_id)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
+  PRIMARY KEY(est_id)
 );
 
 CREATE TABLE profissional (
@@ -168,7 +151,6 @@ CREATE TABLE convenios_has_paciente (
 
 CREATE TABLE logradouro (
   log_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  tipo_logradouro_tp_log_id INTEGER UNSIGNED NOT NULL,
   municipio_mun_id INTEGER UNSIGNED NOT NULL,
   log_nome VARCHAR(100) NULL,
   log_numero VARCHAR(10) NULL,
@@ -176,12 +158,7 @@ CREATE TABLE logradouro (
   log_bairro VARCHAR(50) NULL,
   log_cep VARCHAR(8) NULL,
   PRIMARY KEY(log_id),
-  INDEX endereco_FKIndex1(tipo_logradouro_tp_log_id),
   INDEX endereco_FKIndex2(municipio_mun_id),
-  FOREIGN KEY(tipo_logradouro_tp_log_id)
-    REFERENCES tipo_logradouro(tp_log_id)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
   FOREIGN KEY(municipio_mun_id)
     REFERENCES municipio(mun_id)
       ON DELETE NO ACTION

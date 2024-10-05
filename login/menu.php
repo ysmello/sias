@@ -121,7 +121,7 @@
                 </div>                                            
             </div>
             <div class="col-md-9 d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-                <div class="content p-3" style="max-width: 100%; width: 100%; margin-left: 25%;" id="login"></div>
+                <div class="content p-3" style="max-width: 100%; width: 100%; margin-left: 0%;" id="login"></div>
             </div>
         </div>
     </div>

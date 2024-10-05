@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data_nascimento = $_POST['data-nascimento'];
     $cep = $_POST['cep'];
     $cidade = $_POST['cidade'];
-    $uf = $_POST['uf'];
-    $tipo_logradouro = $_POST['tipo-logradouro'];
+    $bairro = $_POST['bairro'];
+    $uf = $_POST['uf'];  // Nome do estado vindo da API ViaCEP
     $logradouro = $_POST['logradouro'];
     $numero = $_POST['numero'];
     $complemento = $_POST['complemento'];
@@ -31,18 +31,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Inserir usuário
         $stmt = $conn->prepare("INSERT INTO usuario (cidadao_cid_id, usu_senha, usu_dt_cadastro, usu_situacao) 
-                                VALUES (?, ?, NOW(), 1)");
+                                                    VALUES (?, ?, NOW(), 1)");
         $stmt->execute([$cidadao_id, $senha]);
 
+        // Verificar se o estado já existe
+        $stmt = $conn->prepare("SELECT est_id FROM estado WHERE est_nome = ?");
+        $stmt->execute([$uf]);
+        $estado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$estado) {
+            // Inserir novo estado se não existir
+            $stmt = $conn->prepare("INSERT INTO estado (est_nome) VALUES (?)");
+            $stmt->execute([$uf]);
+            $estado_id = $conn->lastInsertId();
+        } else {
+            $estado_id = $estado['est_id'];
+        }
+
+        // Verificar se o município já existe
+        $stmt = $conn->prepare("SELECT mun_id FROM municipio WHERE mun_nome = ? AND estado_est_id = ?");
+        $stmt->execute([$cidade, $estado_id]);
+        $municipio = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$municipio) {
+            // Inserir novo município se não existir
+            $stmt = $conn->prepare("INSERT INTO municipio (mun_nome, estado_est_id) VALUES (?, ?)");
+            $stmt->execute([$cidade, $estado_id]);
+            $municipio_id = $conn->lastInsertId();
+        } else {
+            $municipio_id = $municipio['mun_id'];
+        }
+
         // Inserir logradouro
-        $stmt = $conn->prepare("INSERT INTO logradouro (tipo_logradouro_tp_log_id, municipio_mun_id, log_nome, log_numero, log_complemento, log_cep) 
+        $stmt = $conn->prepare("INSERT INTO logradouro (log_nome, log_numero, log_complemento, log_bairro, log_cep, municipio_mun_id) 
                                 VALUES (?, ?, ?, ?, ?, ?)");
-        
-        // Aqui você precisa resolver a busca ou inserção de município e tipo_logradouro.
-        $stmt->execute([$tipo_logradouro, $cidade, $logradouro, $numero, $complemento, $cep]);
+        $stmt->execute([$logradouro, $numero, $complemento, $bairro, $cep, $municipio_id]);
 
         $conn->commit();
-        echo "Cadastro realizado com sucesso!";
+
+        // Redirecionar de volta para a página de cadastro com uma mensagem de sucesso
+        header('Location: ../login/registro.php?sucesso=1');
+        exit();
+        
     } catch (Exception $e) {
         $conn->rollBack();
         echo "Falha no cadastro: " . $e->getMessage();

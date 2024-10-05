@@ -12,6 +12,12 @@
 <body class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f8f9fa;">
     <div class="container mt-5">
         <h2 class="text-center">Cadastro de Usuário</h2>
+        <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 1): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Registrado com Sucesso!</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>        
         <form class="row g-3" method="POST" action="insert-usuario.php">
             <!-- Nome e Sobrenome -->
             <div class="col-md-6">
@@ -26,8 +32,8 @@
                 <label for="sexo" class="form-label">Sexo</label>
                 <select id="sexo" class="form-select" name="sexo">
                     <option selected>Selecione</option>
-                    <option value="M">Masculino</option>
-                    <option value="F">Feminino</option>
+                    <option value=0>Masculino</option>
+                    <option value=1>Feminino</option>
                 </select>
             </div>
 
