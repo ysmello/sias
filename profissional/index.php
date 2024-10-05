@@ -1,6 +1,13 @@
 <?php
 include '../config/database.php';
+
+// Consulta para obter especialidades
+$query = "SELECT esp_id, esp_nome FROM especialidade";
+$stmt = $conn->prepare($query);
+$stmt->execute();
+$especialidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -109,40 +116,28 @@ include '../config/database.php';
 
             <!-- Especialização -->
             <div class="bg-white rounded p-4 shadow-sm mb-4">
-                <div class="d-flex justify-content-between mb-3">
-                    <h5>Especialização</h5>
-                    <div>
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href='especializacao.php'">Inserir</button>
-                        <button class="btn btn-secondary">Alterar</button>
-                        <button class="btn btn-secondary">Excluir</button>
-                    </div>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Especialização</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+            <h2 class="mb-4">Especialização</h2>
+            <div class="mb-3">
+                <label for="especialidade" class="form-label">Escolha uma Especialidade:</label>
+                <select class="form-select" id="especialidade" name="especialidade" required>
+                    <option value="" disabled selected>Selecione uma especialidade</option>
+                    <?php foreach ($especialidades as $especialidade): ?>
+                        <option value="<?php echo htmlspecialchars($especialidade['esp_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php echo htmlspecialchars($especialidade['esp_nome'], ENT_QUOTES, 'UTF-8'); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
-
+            </div>
             <!-- Clínicas -->
             <div class="bg-white rounded p-4 shadow-sm mb-4">
-                <div class="d-flex justify-content-between mb-3">
-                    <h5>Clínicas</h5>
-                    <div>
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href='clinicas.php'">Inserir</button>
-                        <button class="btn btn-secondary">Alterar</button>
-                        <button class="btn btn-secondary">Excluir</button>
-                    </div>
+            <div class="d-flex justify-content-between mb-3">
+                <h5>Clínicas</h5>
+                <div>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='clinicas.php'">Inserir</button>
+                    <button class="btn btn-secondary">Alterar</button>
+                    <button class="btn btn-secondary">Excluir</button>
+                </div>
                 </div>
                 <table class="table">
                     <thead>
@@ -265,8 +260,5 @@ include '../config/database.php';
             document.getElementById('uf').value = body.uf || '';
         }
     </script>
-    <?php
-        include '../components/footer.php';
-    ?>
 </body>
 </html>
