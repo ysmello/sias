@@ -9,19 +9,9 @@
 </head>
 <body>
     <?php
-        include 'components/header.php';
         include 'config/database.php';
+        include 'components/header.php';
+        include 'components/footer.php'
     ?>
-
-    <div class="container">
-
-        <a href="/agendar">Agendar</a>
-
-    </div>
-
-    <script>
-        
-    </script>
-
 </body>
 </html>
