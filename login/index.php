@@ -30,12 +30,15 @@
             <div class="d-flex justify-content-between align-items-center">
                 <button class="btn btn-secondary" type="submit"><b>ENTRAR</b></button>
                 <div class="d-flex ms-3">
-                    <a href="esqueci-minha-senha.php" class="link-secondary me-3">Esqueci minha senha</a>
-                    <a href="registro.php" class="link-secondary">Registre-se</a>
+                    <a href="#" onclick="carregarPagina(event, 'alterar-senha.php')" class="link-secondary me-3">Esqueci minha senha</a>
+                    <a href="#" onclick="carregarPagina(event, 'registro.php')" class="link-secondary">Registre-se</a>
                 </div>
             </div>
         </form>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Link da CDN do Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK"></script>
+    <!-- Link para JS do projeto-->
+    <script src="../js/carregarLogin.js"></script>
 </body>
 </html>
