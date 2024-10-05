@@ -272,3 +272,12 @@ CREATE TABLE hist_prontuario (
       ON UPDATE NO ACTION
 );
 
+CREATE TABLE exames_procedimentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    protocolo VARCHAR(100) NOT NULL,
+    nans VARCHAR(100) NOT NULL,
+    status int NOT NULL
+);
+
+
