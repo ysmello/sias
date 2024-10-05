@@ -1,6 +1,7 @@
 <?php
-include __DIR__ . '/../config/database.php';
+include '../config/database.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -77,7 +78,7 @@ include __DIR__ . '/../config/database.php';
             </div>
             <div class="col-md-3">
                 <label for="localidade" class="form-label">Cidade</label>
-                <input type="text" class="form-control" id="localidade" name="cidade" required readonly>
+                <input type="text" class="form-control" id="localidade" name="localidade" required readonly>
             </div>
             <div class="col-md-2">
                 <label for="uf" class="form-label">Estado</label>
@@ -103,12 +104,12 @@ include __DIR__ . '/../config/database.php';
                 <input type="text" class="form-control" id="complemento" name="complemento">
             </div>
 
-            <!-- Tabelas -->
+            <!-- Especialização -->
             <div class="bg-white rounded p-4 shadow-sm mb-4">
                 <div class="d-flex justify-content-between mb-3">
                     <h5>Especialização</h5>
                     <div>
-                        <button class="btn btn-secondary">Inserir</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='especializacao.php'">Inserir</button>
                         <button class="btn btn-secondary">Alterar</button>
                         <button class="btn btn-secondary">Excluir</button>
                     </div>
@@ -121,20 +122,21 @@ include __DIR__ . '/../config/database.php';
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Cardiologista</td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td>Clínico Geral</td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
+            <!-- Clínicas -->
             <div class="bg-white rounded p-4 shadow-sm mb-4">
                 <div class="d-flex justify-content-between mb-3">
                     <h5>Clínicas</h5>
                     <div>
-                        <button class="btn btn-secondary">Inserir</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='clinicas.php'">Inserir</button>
                         <button class="btn btn-secondary">Alterar</button>
                         <button class="btn btn-secondary">Excluir</button>
                     </div>
@@ -152,30 +154,31 @@ include __DIR__ . '/../config/database.php';
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Carel Clínica Médica</td>
-                            <td>Rua Jacinto Pinto, 123</td>
-                            <td>Rebosta</td>
-                            <td>PR</td>
-                            <td>Curitiba</td>
-                            <td>(41) 99999-0001</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td>Clínica Perotta</td>
-                            <td>Rua Camaro Amarelo, 676</td>
-                            <td>Sítio Louco</td>
-                            <td>PR</td>
-                            <td>Curitiba</td>
-                            <td>(41) 98888-0002</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
+            <!-- Planos de Saúde Associados -->
             <div class="bg-white rounded p-4 shadow-sm mb-4">
                 <div class="d-flex justify-content-between mb-3">
                     <h5>Planos de Saúde Associados</h5>
                     <div>
-                        <button class="btn btn-secondary">Inserir</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='planos.php'">Inserir</button>
                         <button class="btn btn-secondary">Alterar</button>
                         <button class="btn btn-secondary">Excluir</button>
                     </div>
@@ -192,18 +195,18 @@ include __DIR__ . '/../config/database.php';
                     </thead>
                     <tbody>
                         <tr>
-                            <td>UNIMED</td>
-                            <td>123456</td>
-                            <td>12.345.678/0001-90</td>
-                            <td>Ativo</td>
-                            <td>(11) 4000-0000</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td>AMIL</td>
-                            <td>654321</td>
-                            <td>98.765.432/0001-01</td>
-                            <td>Ativo</td>
-                            <td>(21) 3000-0000</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -233,9 +236,13 @@ include __DIR__ . '/../config/database.php';
         const cepInput = document.querySelector("#cep");
 
         cepInput.addEventListener('blur', async (e) => {
-            const cep = e.target.value;
-            const address = await fetchAddress(cep);
-            fillAddressFields(address);
+            const cep = e.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+            if (cep.length === 8) { // Verifica se o CEP tem 8 dígitos
+                const address = await fetchAddress(cep);
+                fillAddressFields(address);
+            } else {
+                alert('Por favor, insira um CEP válido com 8 dígitos.');
+            }
         });
 
         async function fetchAddress(value) {
@@ -245,13 +252,14 @@ include __DIR__ . '/../config/database.php';
         }
 
         function fillAddressFields(body) {
-            const fields = ['localidade', 'logradouro', 'bairro', 'uf'];
-            fields.forEach(key => {
-                const currentField = document.getElementById(key);
-                if (currentField) {
-                    currentField.value = body[key] || '';
-                }
-            });
+            if (body.erro) {
+                alert('CEP não encontrado. Verifique e tente novamente.');
+                return;
+            }
+            document.getElementById('localidade').value = body.localidade || '';
+            document.getElementById('logradouro').value = body.logradouro || '';
+            document.getElementById('bairro').value = body.bairro || '';
+            document.getElementById('uf').value = body.uf || '';
         }
     </script>
 </body>
