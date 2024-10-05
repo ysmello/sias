@@ -277,9 +277,7 @@ CREATE TABLE exames_procedimentos (
     nome VARCHAR(255) NOT NULL,
     protocolo VARCHAR(100) NOT NULL,
     nans VARCHAR(100) NOT NULL,
-    status VARCHAR(100) NOT NULL
+    status int NOT NULL
 );
 
-drop database sias_db;
-select * from exames_procedimentos
 

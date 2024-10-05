@@ -1,8 +1,59 @@
 <?php
-include 'conexao_db.php'; 
+include '../config/database.php';
 
-$sql = "SELECT id, protocolo, nome, nans, status FROM exames_procedimentos";
-$result = $conn->query($sql);
+// Verificar se a requisição para deletar foi feita
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+    $id = $_POST['id'];
+
+    try {
+        // Verificar se o exame está em uso em outras tabelas
+        $checkSql = "SELECT COUNT(*) as total FROM agenda WHERE especialidade_has_profissional_profissional_prof_id = ?";
+        $stmt = $conn->prepare($checkSql);
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row['total'] > 0) {
+            echo "Não é possível excluir este Exame/Procedimento, pois ele está em uso.";
+        } else {
+            // Se não estiver em uso, exclua o exame
+            $deleteSql = "DELETE FROM exames_procedimentos WHERE id = ?";
+            $stmt = $conn->prepare($deleteSql);
+            $stmt->execute([$id]);
+
+            if ($stmt->rowCount() > 0) {
+                echo "Exame/Procedimento excluído com sucesso.";
+            } else {
+                echo "Erro ao excluir exame: Nenhum registro foi afetado.";
+            }
+        }
+    } catch (PDOException $e) {
+        echo "Erro: " . $e->getMessage();
+    }
+
+    // Encerrar o script para evitar que o HTML seja processado
+    exit;
+}
+
+// Preparar a consulta para listar os exames
+try {
+    $sql = "SELECT id, protocolo, nome, nans, 
+                CASE 
+                    WHEN status = 1 THEN 'Ativo' 
+                    WHEN status = 0 THEN 'Inativo' 
+                    ELSE 'Desconhecido' 
+                END as status
+            FROM exames_procedimentos";
+    
+    // Executar a consulta
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+
+    // Armazena o resultado
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erro na consulta: " . $e->getMessage();
+    $result = []; // Garantir que result esteja definido mesmo em caso de erro
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,16 +85,16 @@ $result = $conn->query($sql);
                 </tr>
             </thead>
             <tbody>
-                <?php if ($result->num_rows > 0): ?>
-                    <?php while($row = $result->fetch_assoc()): ?>
-                    <tr data-id="<?php echo $row['id']; ?>">
-                        <td><?php echo $row['id']; ?></td>
-                        <td><?php echo $row['protocolo']; ?></td>
-                        <td><?php echo $row['nome']; ?></td>
-                        <td><?php echo $row['nans']; ?></td>
-                        <td><?php echo $row['status']; ?></td>
+                <?php if (count($result) > 0): ?>
+                    <?php foreach ($result as $row): ?>
+                    <tr data-id="<?php echo htmlspecialchars($row['id']); ?>">
+                        <td><?php echo htmlspecialchars($row['id']); ?></td>
+                        <td><?php echo htmlspecialchars($row['protocolo']); ?></td>
+                        <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                        <td><?php echo htmlspecialchars($row['nans']); ?></td>
+                        <td><?php echo htmlspecialchars($row['status']); ?></td>
                     </tr>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
                         <td colspan="5" class="text-center">Nenhum dado encontrado</td>
@@ -55,8 +106,6 @@ $result = $conn->query($sql);
     
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
             let selectedRow;
@@ -76,7 +125,7 @@ $result = $conn->query($sql);
             // Redirecionar para alterar.php ao clicar no botão de alterar
             $('#alterBtn').on('click', function() {
                 const id = selectedRow.data('id');
-                window.location.href = 'alterar.php?id=' + id; // Redireciona para a página de alteração
+                window.location.href = 'editar.php?id=' + id; // Redireciona para a página de alteração
             });
 
             // Confirmar e excluir
@@ -84,13 +133,16 @@ $result = $conn->query($sql);
                 const id = selectedRow.data('id');
                 const confirmDelete = confirm("Tem certeza que deseja excluir este exame?");
                 if (confirmDelete) {
-                    $.post('excluir.php', { id: id }, function(response) {
-                        alert(response); // Mostra a mensagem de retorno do PHP
-                        if (response.includes("Exame excluído com sucesso")) {
+                    $.post('', { id: id }, function(response) {
+                        // Remove a tag HTML da resposta
+                        alert(response.trim()); // Mostra a mensagem de retorno do PHP
+                        if (response.includes("Exame/Procedimento excluído com sucesso")) {
                             selectedRow.remove(); // Remove a linha da tabela
                             $('#alterBtn').prop('disabled', true); // Desabilita o botão de alterar
                             $('#deleteBtn').prop('disabled', true); // Desabilita o botão de excluir
                         }
+                    }).fail(function() {
+                        alert("Ocorreu um erro ao tentar excluir o exame.");
                     });
                 }
             });
@@ -100,5 +152,5 @@ $result = $conn->query($sql);
 </html>
 
 <?php
-$conn->close();
+$conn = null; // Fecha a conexão
 ?>

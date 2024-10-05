@@ -1,5 +1,5 @@
 <?php
-include 'conexao_db.php';
+include '../config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Captura os dados do formulário
@@ -10,15 +10,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $status = $_POST['status'];
 
     // Prepare e execute a consulta de atualização
-    $stmt = $conn->prepare("UPDATE exames_procedimentos SET protocolo = ?, nome = ?, nans = ?, status = ? WHERE id = ?");
-    $stmt->bind_param("ssssi", $protocolo, $exame, $nans, $status, $id);
-    
-    if ($stmt->execute()) {
+    try {
+        $stmt = $conn->prepare("UPDATE exames_procedimentos SET protocolo = ?, nome = ?, nans = ?, status = ? WHERE id = ?");
+        $stmt->execute([$protocolo, $exame, $nans, $status, $id]);
+        
         // Redireciona para a página index após sucesso
         header("Location: index.php");
         exit();
-    } else {
-        echo "Erro: " . $stmt->error;
+    } catch (PDOException $e) {
+        echo "Erro: " . $e->getMessage();
     }
 }
 
@@ -26,11 +26,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $stmt = $conn->prepare("SELECT protocolo, nome, nans, status FROM exames_procedimentos WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $stmt->bind_result($protocolo, $exame, $nans, $status);
-    $stmt->fetch();
-    $stmt->close();
+    $stmt->execute([$id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($row) {
+        $protocolo = $row['protocolo'];
+        $exame = $row['nome'];
+        $nans = $row['nans'];
+        $status = $row['status'];
+    } else {
+        // Redireciona se não encontrar o registro
+        header("Location: index.php");
+        exit();
+    }
 } else {
     // Redireciona se não houver ID
     header("Location: index.php");
@@ -70,7 +78,10 @@ if (isset($_GET['id'])) {
                 </div>
                 <div class="col">
                     <label for="status" class="form-label">Status</label>
-                    <input type="text" class="form-control" id="status" name="status" placeholder="Status" value="<?php echo htmlspecialchars($status); ?>" required>
+                    <select id="status" class="form-select" name="status" required>
+                        <option value="1" <?php echo $status == 1 ? 'selected' : ''; ?>>Ativo</option>
+                        <option value="0" <?php echo $status == 0 ? 'selected' : ''; ?>>Inativo</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -86,5 +97,5 @@ if (isset($_GET['id'])) {
 </html>
 
 <?php
-$conn->close(); // Fecha a conexão
+$conn = null; // Fecha a conexão
 ?>

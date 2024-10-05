@@ -1,5 +1,5 @@
 <?php
-include 'conexao_db.php';
+include '../config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Captura os dados do formulário
@@ -9,15 +9,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $status = $_POST['status'];
 
     // Prepare e execute a consulta
-    $stmt = $conn->prepare("INSERT INTO exames_procedimentos (protocolo, nome, nans, status) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $protocolo, $exame, $nans, $status);
-    
-    if ($stmt->execute()) {
+    try {
+        $stmt = $conn->prepare("INSERT INTO exames_procedimentos (nome, protocolo, nans, status) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$exame, $protocolo, $nans, $status]);
+        
         // Redireciona para a página index após sucesso
         header("Location: index.php");
         exit();
-    } else {
-        echo "Erro: " . $stmt->error;
+    } catch (PDOException $e) {
+        echo "Erro: " . $e->getMessage();
     }
 }
 ?>
@@ -53,7 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="col">
                     <label for="status" class="form-label">Status</label>
-                    <input type="text" class="form-control" id="status" name="status" placeholder="Status" required>
+                    <select id="status" class="form-select" name="status" required>
+                        <option value="1">Ativo</option>
+                        <option value="0">Inativo</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -64,10 +67,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
 
 <?php
-$conn->close(); // Fecha a conexão
+$conn = null; // Fecha a conexão
 ?>
