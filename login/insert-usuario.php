@@ -38,7 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $conn->commit();
         
-        header('Location: ../login/index.php?sucesso=1');
+        header('Location: ../index.php?sucesso=1');
+
+
         exit();
     } catch (Exception $e) {
         $conn->rollBack();

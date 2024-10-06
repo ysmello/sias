@@ -7,6 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="d-flex justify-content-center align-items-center vh-100 w-100" style="background-color: #f8f9fa;">
+    <?php
+        include '../components/header.php'
+    ?>    
     <div class="container mt-5">
         <h2 class="text-center">Redefinir Senha</h2>
         <form class="row g-3">

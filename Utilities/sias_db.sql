@@ -31,7 +31,7 @@ CREATE TABLE cidadao (
   cid_dt_nascimento DATE NULL,
   cid_sexo VARCHAR(1) NULL,
   cid_email VARCHAR(200) NULL,
-  cid_celular VARCHAR(13) NULL,
+  cid_celular VARCHAR(14) NULL,
   cid_whatsapp INTEGER UNSIGNED NULL,
   PRIMARY KEY(cid_id)
 );
