@@ -16,7 +16,7 @@
           <a class="nav-link" href="/login/registro.php">Cadastro do Usuário</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Cadastro do Profissional da Saúde</a>
+          <a class="nav-link" href="/profissional">Cadastro do Profissional da Saúde</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Agendamento e consulta</a>

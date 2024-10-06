@@ -23,7 +23,7 @@ $especialidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <div class="container mt-5">
         <h2 class="text-center mb-4">Cadastro Profissional da Saúde</h2>
-        <form class="row g-3" method="POST" action="insert-usuario.php">
+        <form class="row g-3" method="POST" action="insert-profissional.php">
             <!-- Nome e Sobrenome -->
             <div class="col-md-6">
                 <label for="nome" class="form-label">Nome</label>
@@ -88,7 +88,7 @@ $especialidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="col-md-3">
                 <label for="localidade" class="form-label">Cidade</label>
-                <input type="text" class="form-control" id="localidade" name="localidade" required readonly>
+                <input type="text" class="form-control" id="localidade" name="cidade" required readonly>
             </div>
             <div class="col-md-2">
                 <label for="uf" class="form-label">Estado</label>

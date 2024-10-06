@@ -79,20 +79,14 @@ CREATE TABLE estado (
 
 CREATE TABLE profissional (
   prof_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  estado_est_id INTEGER UNSIGNED NOT NULL,
   usuario_usu_id INTEGER UNSIGNED NOT NULL,
   prof_conselho VARCHAR(10) NULL,
   PRIMARY KEY(prof_id),
   INDEX profissional_FKIndex1(usuario_usu_id),
-  INDEX profissional_FKIndex2(estado_est_id),
   FOREIGN KEY(usuario_usu_id)
     REFERENCES usuario(usu_id)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
-  FOREIGN KEY(estado_est_id)
-    REFERENCES estado(est_id)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
 );
 
 CREATE TABLE especialidade_has_profissional (
