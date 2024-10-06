@@ -90,12 +90,15 @@ CREATE TABLE profissional (
   prof_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   usuario_usu_id INTEGER UNSIGNED NOT NULL,
   prof_conselho VARCHAR(10) NULL,
+  prof_plano_nome VARCHAR(255) NOT NULL,
+  prof_especialidade VARCHAR(255) NOT NULL,
+  
   PRIMARY KEY(prof_id),
   INDEX profissional_FKIndex1(usuario_usu_id),
   FOREIGN KEY(usuario_usu_id)
     REFERENCES usuario(usu_id)
       ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
+      ON UPDATE NO ACTION
 );
 
 CREATE TABLE especialidade_has_profissional (

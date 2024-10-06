@@ -128,7 +128,7 @@ $planos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <select class="form-select" id="especialidade" name="especialidade" required>
                     <option value="" disabled selected>Selecione uma especialidade</option>
                     <?php foreach ($especialidades as $especialidade): ?>
-                        <option value="<?php echo htmlspecialchars($especialidade['esp_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <option value="<?php echo htmlspecialchars($especialidade['esp_nome'], ENT_QUOTES, 'UTF-8'); ?>">
                             <?php echo htmlspecialchars($especialidade['esp_nome'], ENT_QUOTES, 'UTF-8'); ?>
                         </option>
                     <?php endforeach; ?>
@@ -139,7 +139,7 @@ $planos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <select class="form-select" id="plano" name="plano" required>
                     <option value="" disabled selected>Selecione um plano</option>
                     <?php foreach ($planos as $plano): ?>
-                        <option value="<?php echo htmlspecialchars($plano['plano_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <option value="<?php echo htmlspecialchars($plano['plano_nome'], ENT_QUOTES, 'UTF-8'); ?>">
                             <?php echo htmlspecialchars($plano['plano_nome'], ENT_QUOTES, 'UTF-8'); ?>
                         </option>
                     <?php endforeach; ?>

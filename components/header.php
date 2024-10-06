@@ -9,16 +9,16 @@
       <!-- Links de navegação -->
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active fw-bold" aria-current="page" href="/">Início</a> <!-- Texto em negrito -->
+          <a class="nav-link active" aria-current="page" href="/">Início</a> <!-- Texto em negrito -->
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-bold" href="/login/registro.php">Cadastro do Usuário</a> <!-- Texto em negrito -->
+          <a class="nav-link" href="/login/registro.php">Cadastro do Usuário</a> <!-- Texto em negrito -->
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-bold" href="/profissional">Cadastro do Profissional da Saúde</a>
+          <a class="nav-link" href="/profissional">Cadastro do Profissional da Saúde</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-bold" href="#">Agendamento e consulta</a> <!-- Texto em negrito -->
+          <a class="nav-link" href="#">Agendamento e consulta</a> <!-- Texto em negrito -->
         </li>
       </ul>
       

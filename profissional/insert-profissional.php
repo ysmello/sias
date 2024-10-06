@@ -18,6 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $logradouro = $_POST['logradouro'];
     $numero = $_POST['numero'];
     $complemento = $_POST['complemento'];
+    $especialidade = $_POST['especialidade'];
+    $plano = $_POST['plano'];
     $senha = password_hash('asd', PASSWORD_BCRYPT);
 
     try {
@@ -36,8 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare("INSERT INTO logradouro (cidadao_cid_id, municipio, log_nome, log_numero, log_complemento, log_cep) 
                                VALUES (?, ?, ?, ?, ?, ?)");
 
-        $stmt = $conn->prepare("INSERT INTO profissional (usuario_usu_id, prof_conselho) VALUES (?, ?)");
-        $stmt->execute([$user_id, $conselho]);
+        $stmt = $conn->prepare("INSERT INTO profissional (usuario_usu_id, prof_conselho, prof_plano_nome, prof_especialidade) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$user_id, $conselho, $plano, $especialidade]);
 
         $conn->commit();
         
