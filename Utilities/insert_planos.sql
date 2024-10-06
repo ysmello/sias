@@ -1,0 +1,10 @@
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('Unimed', NULL);
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('Bradesco Saúde', NULL);
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('Amil', NULL);
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('IAPEM', NULL);
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('Notre Dame Intermédica', NULL);
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('SulAmérica Saúde',NULL);
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('Grupo São Marcos', NULL);
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('Rede Dor', NULL);
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('Hapvida', NULL);
+INSERT INTO planos (plano_nome, plano_descr) VALUES ('Prevent Senior', NULL);
