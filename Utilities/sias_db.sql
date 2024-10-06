@@ -40,7 +40,7 @@ CREATE TABLE cidadao (
   cid_sexo INTEGER UNSIGNED NULL,
   cid_genero INTEGER UNSIGNED NULL,
   cid_email VARCHAR(200) NULL,
-  cid_celular VARCHAR(13) NULL,
+  cid_celular VARCHAR(14) NULL,
   cid_whatsapp INTEGER UNSIGNED NULL,
   PRIMARY KEY(cid_id)
 );
