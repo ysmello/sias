@@ -18,7 +18,7 @@
           <a class="nav-link" href="/profissional">Cadastro do Profissional da Saúde</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Agendamento e consulta</a> <!-- Texto em negrito -->
+          <a class="nav-link" href="/agendar/especialistas.php">Agendamento e consulta</a> <!-- Texto em negrito -->
         </li>
       </ul>
       

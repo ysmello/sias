@@ -37,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $stmt = $conn->prepare("INSERT INTO logradouro (cidadao_cid_id, municipio, log_nome, log_numero, log_complemento, log_cep) 
                                VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$cidadao_id, $cidade, $logradouro, $numero, $complemento, $cep]);
 
         $stmt = $conn->prepare("INSERT INTO profissional (usuario_usu_id, prof_conselho, prof_plano_nome, prof_especialidade) VALUES (?, ?, ?, ?)");
         $stmt->execute([$user_id, $conselho, $plano, $especialidade]);
