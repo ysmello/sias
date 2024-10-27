@@ -1,5 +1,5 @@
 <?php
-    include __DIR__ . '/../config/database.php';
+    include __DIR__ . '/../../config/database.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -9,18 +9,18 @@
     <title>SIAS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
     <?php
-        include '../components/header.php'
+        include __DIR__ . '/../../components/header.php'
     ?>
     <?php if (isset($_GET['falha']) && $_GET['falha'] == 2): ?>
         <div class="alert alert-danger alert-dismissible fade show w-100" role="alert">
             <strong>Erro ao realizar login!</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php endif; ?>      
+    <?php endif; ?> 
+<body class="overflow-hidden">         
     <div class="container d-flex justify-content-center align-items-center flex-column mt-5">
-        <div style="background-color: #f8f9fa; " class="w-100">
+        <div style="background-color: #f8f9fa; " class="w-50">
             <form action="controler-login.php" method="POST" class="bg-white p-4 rounded shadow w-100">
                 <div class="mb-3 text-start"> 
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -38,7 +38,10 @@
                     <input type="password" class="form-control form-control-lg w-100" id="password" name="password" required>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
-                    <button class="btn btn-secondary" type="submit"><b>ENTRAR</b></button>
+                    <div class="d-flex justify-content-between align-items-start">
+                        <button class="btn btn-secondary me-3" type="submit"><b>ENTRAR</b></button>
+                        <button class="btn btn-secondary me-3" type="reset"><b>LIMPAR</b></button>
+                    </div>    
                     <div class="d-flex ms-3">
                         <a href="../login/esqueci-minha-senha.php" class="link-secondary me-3">Esqueci minha senha</a>
                         <a href="../login/registro.php" class="link-secondary">Registre-se</a>
@@ -50,4 +53,7 @@
     <!-- Link da CDN do Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK"></script>
 </body>
+<?php
+        include __DIR__ . '/../../components/footer.php'
+    ?>
 </html>

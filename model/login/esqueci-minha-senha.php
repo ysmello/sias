@@ -8,7 +8,7 @@
 </head>
 <body >
     <?php
-        include '../components/header.php'
+        include __DIR__ . '/../../components/header.php'
     ?>
     <main class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f8f9fa;">
         <div class="text-center w-50">
