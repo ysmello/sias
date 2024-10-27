@@ -268,13 +268,10 @@ CREATE TABLE hist_prontuario (
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
 );
+
 CREATE TABLE planos (
   plano_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   plano_nome VARCHAR(225) NULL,
   plano_descr VARCHAR(255) NULL,
   PRIMARY KEY(plano_id)
 );
-
-
-select * from especialidade
-drop database sias_db

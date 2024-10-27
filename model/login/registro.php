@@ -1,5 +1,5 @@
 <?php
-    include __DIR__ . '/../config/database.php';
+    include __DIR__ . '/../../config/database.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -11,7 +11,7 @@
 </head>
 <body>
     <?php
-        include '../components/header.php'
+        include __DIR__ . '/../../components/header.php'
     ?>
     
     <div class="d-flex justify-content-center align-items-center vh-100">
@@ -96,17 +96,17 @@
                     <label for="bairro" class="form-label">Bairro</label>
                     <input type="text" class="form-control" id="bairro" name="bairro" required readonly>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-5">
                     <label for="logradouro" class="form-label">Nome Logradouro</label>
                     <input type="text" class="form-control" id="logradouro" name="logradouro" required readonly>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="numero" class="form-label">Número</label>
                     <input type="text" class="form-control" id="numero" name="numero" required>
                 </div>
 
                 <!-- Complemento -->
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <label for="complemento" class="form-label">Complemento</label>
                     <input type="text" class="form-control" id="complemento" name="complemento">
                 </div>
