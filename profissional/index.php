@@ -145,6 +145,14 @@ $planos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </select>
             </div>
+            <div class="col-md-4">
+                    <label for="senha" class="form-label">Crie uma senha</label>
+                    <input type="password" class="form-control" id="senha" name="senha" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="confirma-senha" class="form-label">Confirme a senha</label>
+                    <input type="password" class="form-control" id="confirma-senha" required>
+                </div>
 
             <button type="submit" class="btn btn-secondary mt-4">Cadastrar-se</button>
         </form>
