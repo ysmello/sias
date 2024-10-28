@@ -1,6 +1,6 @@
 <?php
 // Conectar ao banco de dados
-include __DIR__ . '/../config/database.php';
+include __DIR__ . '/../../config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->beginTransaction();
         
         $stmt = $conn->prepare("INSERT INTO cidadao (cid_nome, cid_email, cid_celular, cid_cpf, cid_dt_nascimento, cid_sexo, cid_whatsapp) 
-                                VALUES (?, ?, ?, ?, ?, ?, ?)");
+                                             VALUES (?,        ?,          ?,          ?,       ?,                 ?,        ?)");
         $stmt->execute([$nome . ' ' . $sobrenome, $email, $celular, $cpf, $data_nascimento, $sexo, $whatsapp]);
         $cidadao_id = $conn->lastInsertId();
 
@@ -32,16 +32,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$cidadao_id, $senha]);
 
         $stmt = $conn->prepare("INSERT INTO logradouro (cidadao_cid_id, municipio, log_nome, log_numero, log_complemento, log_cep) 
-                               VALUES (?, ?, ?, ?, ?, ?)");
+                                                VALUES (?,              ?,         ?,        ?,          ?,               ?)");
         
         $stmt->execute([$cidadao_id, $cidade, $logradouro, $numero, $complemento, $cep]);
 
         $conn->commit();
         
-        header('Location: ../index.php?sucesso=1');
-
-
+        header('Location: ../../../index.php?sucesso=1');
         exit();
+        
     } catch (Exception $e) {
         $conn->rollBack();
         echo "Falha no cadastro: " . $e->getMessage();

@@ -12,16 +12,10 @@
     <?php
         include __DIR__ . '/../../components/header.php'
     ?>
-    <?php if (isset($_GET['falha']) && $_GET['falha'] == 2): ?>
-        <div class="alert alert-danger alert-dismissible fade show w-100" role="alert">
-            <strong>Erro ao realizar login!</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?> 
 <body class="overflow-hidden">         
     <div class="container d-flex justify-content-center align-items-center flex-column mt-5">
         <div style="background-color: #f8f9fa; " class="w-50">
-            <form action="controler-login.php" method="POST" class="bg-white p-4 rounded shadow w-100">
+            <form action="/controller/login/controller-autenticacao-login.php" method="POST" class="bg-white p-4 rounded shadow w-100">
                 <div class="mb-3 text-start"> 
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
@@ -43,8 +37,8 @@
                         <button class="btn btn-secondary me-3" type="reset"><b>LIMPAR</b></button>
                     </div>    
                     <div class="d-flex ms-3">
-                        <a href="../login/esqueci-minha-senha.php" class="link-secondary me-3">Esqueci minha senha</a>
-                        <a href="../login/registro.php" class="link-secondary">Registre-se</a>
+                        <a href="../login/esqueci-minha-senha.php" class="link-secondary me-3">ESQUECI MINHA SENHA</a>
+                        <a href="../login/registro.php" class="link-secondary">REGISTRE-SE</a>
                     </div>
                 </div>
             </form>

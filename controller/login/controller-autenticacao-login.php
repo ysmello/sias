@@ -2,8 +2,7 @@
 
 session_start();
 
-include __DIR__ . '/../config/database.php'; // Inclua o caminho correto para sua conexão
-    
+include __DIR__ . '/../../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -16,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "SELECT u.usu_id, u.cidadao_cid_id, u.usu_tp, u.usu_senha, u.usu_situacao, c.cid_nome
                 FROM usuario u
                 INNER JOIN cidadao c ON u.cidadao_cid_id = c.cid_id
-                WHERE c.cid_email = :email AND u.usu_situacao = 1"; // Verifica se a conta está ativa
+                WHERE c.cid_email = :email"; // Verifica se o email existe
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':email', $email);
@@ -26,6 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($stmt->rowCount() === 1) { // Verifica se encontrou um usuário
 
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Verificar se a conta está ativa
+            if ($row['usu_situacao'] != 1) {
+                // Conta inativa
+                header("Location: ../../../index.php?erro=4"); // Erro para conta inativa
+                exit();
+            }
 
             // Verificar se a senha está correta
             if (password_verify($senha, $row['usu_senha'])) {
@@ -43,25 +49,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $update_stmt->execute();
 
                 // Redirecionar o usuário após login
-                header("Location: ../index.php?sucesso=2");
+                header('Location: ../../../index.php?sucesso=2');
                 exit();
             } else {
-
                 // A senha está incorreta
-                $erro = "Senha incorreta.";
-                header("Location: index.php?falha=2");
+                header("Location: ../../../index.php?erro=1"); // Erro de senha incorreta
+                exit();
             }
         } else {
-
-            // Usuário não encontrado ou conta inativa
-            $erro = "Usuário não encontrado ou conta inativa.";
-            header("Location: index.php?falha=2");
-
+            // Usuário não encontrado
+            header("Location: ../../../index.php?erro=2"); // Erro para usuário não encontrado
         }
     } else {
-
-        $erro = "Por favor, preencha todos os campos.";
-        header("Location: index.php?falha=2");
+        // Campos vazios
+        header("Location: ../../../index.php?erro=3"); // Erro para campos vazios
     }
 }
 
