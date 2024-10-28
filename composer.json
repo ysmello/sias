@@ -1,0 +1,19 @@
+{
+    "name": "nico/sias",
+    "description": "opet",
+    "autoload": {
+        "psr-4": {
+            "Nico\\Sias\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nicholas Bruno Pimentel",
+            "email": "nbpimentel89@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

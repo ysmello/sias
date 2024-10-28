@@ -275,3 +275,14 @@ CREATE TABLE planos (
   plano_descr VARCHAR(255) NULL,
   PRIMARY KEY(plano_id)
 );
+
+ALTER TABLE cidadao
+ADD UNIQUE (cid_cpf);
+
+CREATE TABLE redefinicao_senha (
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
+    token VARCHAR(32) NOT NULL,
+    expira DATETIME NOT NULL,
+    CONSTRAINT fk_reset_senha FOREIGN KEY (cpf) REFERENCES cidadao(cid_cpf) ON DELETE CASCADE
+);

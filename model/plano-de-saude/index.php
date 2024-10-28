@@ -1,5 +1,5 @@
 <?php
-include '../config/database.php';
+include __DIR__ . '/../../config/database.php';
 
 // Processamento do formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

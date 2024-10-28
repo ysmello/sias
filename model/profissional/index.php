@@ -1,7 +1,8 @@
 <?php
-include '../config/database.php';
+    include __DIR__ . '/../../config/database.php';
 
 // Consulta para obter especialidades
+/*
 $query = "SELECT esp_id, esp_nome FROM especialidade";
 $stmt = $conn->prepare($query);
 $stmt->execute();
@@ -10,7 +11,7 @@ $especialidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $query = "SELECT plano_id, plano_nome FROM planos";
 $stmt = $conn->prepare($query);
 $stmt->execute();
-$planos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$planos = $stmt->fetchAll(PDO::FETCH_ASSOC);*/
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@ $planos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
-    <?php include '../components/header.php'; ?>
+    <?php include __DIR__ . '/../../components/header.php' ?>
     
     <div class="container mt-5">
         <h2 class="text-center mb-4">Cadastro Profissional da Saúde</h2>

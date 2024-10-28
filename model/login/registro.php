@@ -13,11 +13,11 @@
     <?php
         include __DIR__ . '/../../components/header.php'
     ?>
-    
+
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="container">
             <h2 class="text-center">Cadastro de Usuário</h2>
-            <form class="row g-3" method="POST" action="insert-usuario.php">
+            <form class="row g-3" method="POST" action="/controller/login/controller-inserir-usuario.php">
                 <!-- Nome e Sobrenome -->
                 <div class="col-md-6">
                     <label for="nome" class="form-label">Nome</label>
