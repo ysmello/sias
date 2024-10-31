@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIAS</title>
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
     <?php
@@ -38,7 +38,7 @@
                     </div>    
                     <div class="d-flex ms-3">
                         <a href="../login/esqueci-minha-senha.php" class="link-secondary me-3">ESQUECI MINHA SENHA</a>
-                        <a href="../login/registro.php" class="link-secondary">REGISTRE-SE</a>
+                        <a href="../login/inserir-usuario.php" class="link-secondary">REGISTRE-SE</a>
                     </div>
                 </div>
             </form>
@@ -48,6 +48,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK"></script>
 </body>
 <?php
-        include __DIR__ . '/../../components/footer.php'
-    ?>
+    include __DIR__ . '/../../components/footer.php'
+?>
 </html>
