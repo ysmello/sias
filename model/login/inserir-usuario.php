@@ -6,17 +6,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
+    <title>Cadastrar Usuário</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="overflow-hidden">
     <?php
         include __DIR__ . '/../../components/header.php'
     ?>
-
-    <div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="container d-flex justify-content-center align-items-center flex-column mt-5">
         <div class="container">
-            <h2 class="text-center">Cadastro de Usuário</h2>
             <form class="row g-3" method="POST" action="/controller/login/controller-inserir-usuario.php">
                 <!-- Nome e Sobrenome -->
                 <div class="col-md-6">
@@ -165,4 +163,7 @@
         }
     </script>
 </body>
+    <?php
+        include __DIR__ . '/../../components/footer.php'
+    ?>
 </html>

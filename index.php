@@ -28,6 +28,12 @@
                                 <h5 class="modal-title w-100" id="mensagensModalLabel">LOGIN REALIZADO COM SUCESSO!</h5>
                             <?php elseif ($_GET['sucesso'] == 3): ?>
                                 <h5 class="modal-title w-100" id="mensagensModalLabel">E-MAIL ENVIADO COM SUCESSO!</h5>
+                            <?php elseif ($_GET['sucesso'] == 4): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">SENHA ALTERADA COM SUCESSO!</h5>                                
+                            <?php elseif ($_GET['sucesso'] == 5): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">DADOS CADASTRAIS ALTERADOS COM SUCESO!</h5>                                
+                            <?php elseif ($_GET['sucesso'] == 6): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">SENHA ALTERADA COM SUCESO!</h5>                                
                             <?php endif; ?>
                         <?php elseif (isset($_GET['erro'])): ?>
                             <?php if ($_GET['erro'] == 1): ?>
@@ -39,7 +45,23 @@
                             <?php elseif ($_GET['erro'] == 4): ?>
                                 <h5 class="modal-title w-100" id="mensagensModalLabel">USUÁRIO INATIVADO!</h5>
                             <?php elseif ($_GET['erro'] == 5): ?>
-                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO ENVIAR E-MAIL!</h5>                                
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO ENVIAR E-MAIL!</h5>
+                            <?php elseif ($_GET['erro'] == 6): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO ALTERAR A SENHA, TOKEN INVÁLIDO!</h5>                                                                   
+                            <?php elseif ($_GET['erro'] == 7): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO ALTERAR A SENHA, PALAVRA PASSE INVÁLIDA!</h5>                                                                   
+                            <?php elseif ($_GET['erro'] == 8): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO, USUÁRIO NÃO AUTENTICADO!</h5>                                                                   
+                            <?php elseif ($_GET['erro'] == 9): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO, AS SENHAS NÃO COINCIDEM!</h5>                                                                   
+                            <?php elseif ($_GET['erro'] == 10): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO, COMPRIMENTO DA SENHA INVÁLIDO!</h5>                                                                   
+                            <?php elseif ($_GET['erro'] == 11): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO ATUALIZAR A SENHA!</h5>                                                                   
+                            <?php elseif ($_GET['erro'] == 12): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO ALTERAR OS DADOS CADASTRAIS!</h5>                                                                   
+                            <?php elseif ($_GET['erro'] == 13): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO DE CONEXÃO COM O BANCO DE DADOS</h5>                                                                   
                             <?php endif; ?>
                         <?php endif; ?>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="window.location='index.php';"></button>
