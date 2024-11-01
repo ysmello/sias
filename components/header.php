@@ -19,7 +19,7 @@ $username = $isLoggedIn ? $_SESSION['cid_nome'] : '';
           <a class="nav-link" href="/model/profissional/">Profissional da Saúde</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/model/agendar/">Agendamento e consulta</a> 
+          <a class="nav-link" href="/model/agendar/especialistas.php">Agendamento e consulta</a> 
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/model/plano-de-saude/">Plano de Saúde</a> 
