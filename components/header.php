@@ -31,7 +31,7 @@ $username = $isLoggedIn ? $_SESSION['cid_nome'] : '';
                 Paciente
             </a>
             <ul class="dropdown-menu" aria-labelledby="pacienteDropdown">
-                <li><a class="dropdown-item" href="#">Paciente</a></li>
+                <li><a class="dropdown-item" href="/model/paciente/index.php">Paciente</a></li>
                 <li><a class="dropdown-item" href="#">Meus Planos de Saúde</a></li>
                 <li><a class="dropdown-item" href="#">Meus Prontuários Clínicos</a></li>
                 <li><a class="dropdown-item" href="#">Avaliar minhas consultas</a></li>

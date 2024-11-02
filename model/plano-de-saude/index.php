@@ -1,31 +1,12 @@
 <?php
-include __DIR__ . '/../../config/database.php';
+session_start();
+include __DIR__ . '/../../components/header.php';
+include __DIR__ . '/../../config/database.php'; // Conexão ao banco de dados
 
-// Processamento do formulário
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recupera os dados do formulário
-    $nome = $_POST['nome'];
-    $ans = $_POST['ans'];
-    $cnpj = $_POST['cnpj'];
-    $situacao = $_POST['situacao'];
-    $telefone = $_POST['telefone'];
-
-    // Insere o plano no banco de dados
-    $stmt = $conn->prepare("INSERT INTO planos (nome, ans, cnpj, situacao, telefone) VALUES (:nome, :ans, :cnpj, :situacao, :telefone)");
-    $stmt->execute([
-        ':nome' => $nome,
-        ':ans' => $ans,
-        ':cnpj' => $cnpj,
-        ':situacao' => $situacao,
-        ':telefone' => $telefone,
-    ]);
-
-    // Redirecionar ou mostrar mensagem de sucesso
-    header('Location: index.php');
-    exit();
-}
-
-$conn = null; // Fecha a conexão
+// Consulta para obter registros da tabela `convenios`
+$query = "SELECT conv_id, conv_cnpj, conv_num_ans, conv_situacao, conv_nome FROM convenios";
+$stmt = $conn->prepare($query);
+$stmt->execute();
 ?>
 
 <!DOCTYPE html>
@@ -33,51 +14,256 @@ $conn = null; // Fecha a conexão
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Convênios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Planos de Saúde Associados</title>
 </head>
-<body class="container mt-5">
+<body class="overflow-hidden">
+<?php if (isset($_GET['sucesso']) || isset($_GET['erro'])): ?>
+        <!-- Botão que aciona o modal -->
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#mensagensModal" style="display: none;"></button>
 
-    <h2 class="text-center">Inserir Planos</h2>
-    
-    <form method="post" action="">
-        <div class="bg-white rounded p-4 shadow-sm mb-4">
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="nome" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome Plano" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="ans" class="form-label">N° ANS</label>
-                    <input type="text" class="form-control" id="ans" name="ans" placeholder="N° ANS" required>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="cnpj" class="form-label">CNPJ</label>
-                    <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="CNPJ" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="situacao" class="form-label">Situação</label>
-                    <input type="text" class="form-control" id="situacao" name="situacao" placeholder="Situação" required>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="telefone" class="form-label">Telefone</label>
-                    <input type="text" class="form-control" id="telefone" name="telefone" placeholder="(DD) + Número" required>
+        <!-- Modal de Mensagens -->
+        <div class="modal fade" id="mensagensModal" tabindex="-1" aria-labelledby="mensagensModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header <?php echo (isset($_GET['sucesso'])) ? 'bg-success text-white' : 'bg-danger text-white'; ?> text-center border-bottom <?php echo (isset($_GET['sucesso'])) ? 'border-success' : 'border-danger'; ?> w-100">
+                        <?php if (isset($_GET['sucesso'])): ?>
+                            <?php if ($_GET['sucesso'] == 1): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">PLANO DE SAÚDE INSERIDO COM SUCESSO!</h5>
+                            <?php elseif ($_GET['sucesso'] == 2): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">PLANO DE SAÚDE ALTERADO COM SUCESSO!</h5>
+                            <?php elseif ($_GET['sucesso'] == 3): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">PLANO DE SAÚDE EXCLUÍDO COM SUCESSO!</h5>
+                            <?php endif; ?>
+                        <?php elseif (isset($_GET['erro'])): ?>
+                            <?php if ($_GET['erro'] == 1): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO TENTAR INSERIR PLANO DE SAÚDE!</h5>
+                            <?php elseif ($_GET['erro'] == 2): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO TENTAR ALTERAR PLANO DE SAÚDE!</h5>
+                            <?php elseif ($_GET['erro'] == 3): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO TENTAR EXCLUIR PLANO DE SAÚDE!</h5>
+                            <?php elseif ($_GET['erro'] == 4): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO TENTAR INSERIR PLANO DE SAÚDE, CNPJ INVÁLIDO!</h5>
+                            <?php elseif ($_GET['erro'] == 5): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO TENTAR ALTERAR PLANO DE SAÚDE, CNPJ INVÁLIDO!</h5>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="window.location='index.php';"></button>
+                    </div>
                 </div>
             </div>
         </div>
+
+    <?php endif; ?>    
+    <div class="container my-5">
+        <!-- Conjunto de Botões -->
+        <div class="d-flex mb-3">
+            <button id="btnInserir" class="btn btn-secondary me-2" data-bs-toggle="modal" data-bs-target="#modalFormulario">Inserir</button>
+            <button id="btnAlterar" class="btn btn-warning me-2" disabled data-bs-toggle="modal" data-bs-target="#modalFormulario">Alterar</button>
+            <button id="btnExcluir" class="btn btn-danger me-2" disabled data-bs-toggle="modal" data-bs-target="#modalExcluir">Excluir</button>
+            <button id="btnVisualizar" class="btn btn-info" disabled data-bs-toggle="modal" data-bs-target="#modalFormulario">Visualizar</button>
+        </div>
+
+        <!-- Tabela de Registros -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox" id="selectAll"></th>
+                    <th scope="col">ID</th>
+                    <th scope="col">CNPJ</th>
+                    <th scope="col">Número ANS</th>
+                    <th scope="col">Situação</th>
+                    <th scope="col">Nome</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaRegistros">
+                <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                    <tr>
+                        <td><input type="checkbox" class="checkboxRegistro" value="<?= $row['conv_id'] ?>"></td>
+                        <td><?= $row['conv_id'] ?></td>
+                        <td><?= $row['conv_cnpj'] ?></td>
+                        <td><?= $row['conv_num_ans'] ?></td>
+                        <td><?php 
+                            switch ($row['conv_situacao']) {
+                                case 1:
+                                    echo 'Ativo';
+                                    break;
+                                case 0:
+                                    echo 'Inativo';
+                                    break;
+                                default:
+                                    echo 'Desconhecido';
+                            }
+                        ?></td>
+                        <td><?= $row['conv_nome'] ?></td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal para Formulário -->
+    <div class="modal fade" id="modalFormulario" tabindex="-1" aria-labelledby="modalFormularioLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalFormularioLabel">Formulário de Convênio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario" method="POST">
+                        <input type="hidden" name="registroId" id="registroId">
+                        <div class="mb-3">
+                            <label for="conv_cnpj" class="form-label">CNPJ</label>
+                            <input type="text" class="form-control" id="conv_cnpj" name="conv_cnpj" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="conv_num_ans" class="form-label">Número ANS</label>
+                            <input type="text" class="form-control" id="conv_num_ans" name="conv_num_ans">
+                        </div>
+                        <div class="mb-3">
+                            <label for="conv_situacao" class="form-label">Situação</label>
+                            <select class="form-control" id="conv_situacao" name="conv_situacao" required>
+                                <option value="1">Ativo</option>
+                                <option value="0">Inativo</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="conv_nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="conv_nome" name="conv_nome" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" id="btnSalvar">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para confirmação de exclusão -->
+    <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalExcluirLabel">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Deseja realmente excluir os registros selecionados?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmarExcluir">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    const checkboxes = document.querySelectorAll('.checkboxRegistro');
+    const btnAlterar = document.getElementById('btnAlterar');
+    const btnExcluir = document.getElementById('btnExcluir');
+    const btnVisualizar = document.getElementById('btnVisualizar');
+    const form = document.getElementById('formulario');
+    const btnSalvar = document.getElementById('btnSalvar');    
+
+    // Configuração de estado dos botões
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const selecionados = document.querySelectorAll('.checkboxRegistro:checked');
+            if (selecionados.length === 1) {
+                btnAlterar.disabled = false;
+                btnVisualizar.disabled = false;
+                btnExcluir.disabled = false;
+            } else if (selecionados.length > 1) {
+                btnAlterar.disabled = true;
+                btnVisualizar.disabled = true;
+                btnExcluir.disabled = false;
+            } else {
+                btnAlterar.disabled = true;
+                btnVisualizar.disabled = true;
+                btnExcluir.disabled = true;
+            }
+        });
+    });
+
+
+    // Inserção de Convênio
+    document.getElementById('btnInserir').addEventListener('click', () => {
+        form.reset();
+        document.getElementById('modalFormularioLabel').textContent = 'Inserir Convênio';
+        form.action = '/controller/plano-de-saude/controller-inserir-plano-saude.php';
+        enableFields(true);
+        btnSalvar.disabled = false;
+    });
+
+    // Alteração de Convênio
+    document.getElementById('btnAlterar').addEventListener('click', () => {
+        const selecionado = document.querySelector('.checkboxRegistro:checked').value;
+        fetchDataAndFillForm(selecionado);
+        document.getElementById('modalFormularioLabel').textContent = 'Alterar Convênio';
+        form.action = `/controller/plano-de-saude/controller-alterar-plano-saude.php?id=${selecionado}`;
+        enableFields(true);
+        btnSalvar.disabled = false;
+    });
+
+    // Visualização de Convênio
+    document.getElementById('btnVisualizar').addEventListener('click', () => {
+        const selecionado = document.querySelector('.checkboxRegistro:checked').value;
+        fetchDataAndFillForm(selecionado);
+        document.getElementById('modalFormularioLabel').textContent = 'Visualizar Convênio';
+        form.action = '#'; // Sem ação para visualização
+        enableFields(false);
+        btnSalvar.disabled = true; // Desabilita o botão Salvar em modo de visualização
+    });
+
+    // Função para habilitar ou desabilitar os campos
+    function enableFields(isEnabled) {
+        document.getElementById('conv_cnpj').disabled = !isEnabled;
+        document.getElementById('conv_num_ans').disabled = !isEnabled;
+        document.getElementById('conv_situacao').disabled = !isEnabled;
+        document.getElementById('conv_nome').disabled = !isEnabled;
+    }
+
+    // Função para buscar dados e preencher o formulário
+    function fetchDataAndFillForm(id) {
+        fetch(`/controller/plano-de-saude/controller-visualizar-plano-saude.php?id=${id}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('registroId').value = data.conv_id;
+                document.getElementById('conv_cnpj').value = data.conv_cnpj;
+                document.getElementById('conv_num_ans').value = data.conv_num_ans;
+                document.getElementById('conv_situacao').value = data.conv_situacao; 
+                document.getElementById('conv_nome').value = data.conv_nome;
+            });
+    }
+
+    // Exclusão de Convênio
+    document.getElementById('btnExcluir').addEventListener('click', () => {
+        const idsParaExcluir = Array.from(document.querySelectorAll('.checkboxRegistro:checked')).map(cb => cb.value);
         
-        <div class="d-flex justify-content-start">
-            <button type="submit" class="btn btn-secondary me-2">Salvar</button>
-            <a href="index.php" class="btn btn-secondary">Voltar</a>
-        </div>
-    </form>
+        // Mostrar modal de confirmação
+        const modalExcluir = new bootstrap.Modal(document.getElementById('modalExcluir'));
+        modalExcluir.show();
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        // Aguardar a confirmação do usuário para excluir
+        document.getElementById('btnConfirmarExcluir').onclick = () => {
+            window.location.href = `/controller/plano-de-saude/controller-excluir-plano-saude.php?ids=${idsParaExcluir.join(',')}`;
+        };
+    });
+    
+    // Acionamento automático da mensagem
+    document.querySelector('button[data-bs-target="#mensagensModal"]').click();
+    
+    // Redirecionamento de página caso o usuário não feche a mensagem pelo botão "Fechar"
+    var mensagensModal = document.getElementById('mensagensModal');
+    mensagensModal.addEventListener('hidden.bs.modal', function (event) {
+        window.location = 'index.php';
+    });
+    document.querySelector('button[data-bs-target="#mensagensModal"]').click();              
+
+    </script>
 </body>
+
+<?php include __DIR__ . '/../../components/footer.php'; ?>
 </html>

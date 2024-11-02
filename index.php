@@ -33,7 +33,9 @@
                             <?php elseif ($_GET['sucesso'] == 5): ?>
                                 <h5 class="modal-title w-100" id="mensagensModalLabel">DADOS CADASTRAIS ALTERADOS COM SUCESO!</h5>                                
                             <?php elseif ($_GET['sucesso'] == 6): ?>
-                                <h5 class="modal-title w-100" id="mensagensModalLabel">SENHA ALTERADA COM SUCESO!</h5>                                
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">DADOS CADASTRAIS ALTERADOS COM SUCESO!</h5>                                
+                            <?php elseif ($_GET['sucesso'] == 7): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">USUÁRIO EXCLUÍDO COM SUCESSO!</h5>                                
                             <?php endif; ?>
                         <?php elseif (isset($_GET['erro'])): ?>
                             <?php if ($_GET['erro'] == 1): ?>
@@ -61,7 +63,9 @@
                             <?php elseif ($_GET['erro'] == 12): ?>
                                 <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO ALTERAR OS DADOS CADASTRAIS!</h5>                                                                   
                             <?php elseif ($_GET['erro'] == 13): ?>
-                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO DE CONEXÃO COM O BANCO DE DADOS</h5>                                                                   
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO DE CONEXÃO COM O BANCO DE DADOS!</h5>                                                                   
+                            <?php elseif ($_GET['erro'] == 14): ?>
+                                <h5 class="modal-title w-100" id="mensagensModalLabel">ERRO AO EXCLUIR USUÁRIO!</h5>                                                                   
                             <?php endif; ?>
                         <?php endif; ?>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="window.location='index.php';"></button>
