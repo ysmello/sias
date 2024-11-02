@@ -11,9 +11,7 @@ if (!isset($_SESSION['usu_id'])) {
 
 include __DIR__ . '/../../config/database.php';
 
-// ID e Nome do usuário para exibir na confirmação
-$userId = $_SESSION['usu_id']; // Aqui você pode pegar esse valor de forma dinâmica, conforme necessário.
-//$userName = 'Usuário'; // O mesmo aqui, este deve vir da consulta ao banco.
+$userId = $_SESSION['usu_id']; 
 
 if ($userId) {
     // Busca o nome do usuário no banco de dados
@@ -48,7 +46,7 @@ include __DIR__ . '/../../components/header.php';
 <body class="overflow-hidden">
     <div class="container d-flex justify-content-center align-items-center flex-column mt-5 w-50">
         <div class="container">
-            <form class="row g-3" method="POST" action="/controller/usuario/controller-alterar-status.php">
+            <form class="row g-3" method="POST" action="/controller/login/controller-excluir-usuario.php">
                 <input type="hidden" name="usu_id" value="<?php echo htmlspecialchars($userId); ?>">
                 <div class="col-md-12">
                     <h5 class="form-label">Deseja realmente excluir o usuário <strong><?php echo htmlspecialchars($userName); ?></strong>?</h5>
